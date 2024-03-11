@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+    <BehaviorTree ID="TreeA">
+        <Sequence>
+            <RetryUntilSuccessful num_attempts="5">
+                <FindUpdatePackage file_path="{path}"/>
+            </RetryUntilSuccessful>
+            <CopyUpdatePackage src_path="{path}" dst_path="{path}"/>
+            <ExtractArchive file_path="{path}" out_dir="{path}"/>
+        </Sequence>
+    </BehaviorTree>
+
+    <!-- Description of Node Models (used by Groot) -->
+    <TreeNodesModel>
+        <Action ID="CopyUpdatePackage" editable="true">
+            <input_port name="src_path"/>
+            <output_port name="dst_path"/>
+        </Action>
+        <Action ID="ExtractArchive" editable="true">
+            <input_port name="file_path"/>
+            <output_port name="out_dir"/>
+        </Action>
+        <Action ID="FindUpdatePackage" editable="true">
+            <output_port name="file_path"/>
+        </Action>
+    </TreeNodesModel>
+
+</root>
