@@ -1,3 +1,0 @@
-/home/shkwon98/avikus_ws/practice/behavior_tree/build/CMakeFiles/nb0cp.dir
-/home/shkwon98/avikus_ws/practice/behavior_tree/build/CMakeFiles/edit_cache.dir
-/home/shkwon98/avikus_ws/practice/behavior_tree/build/CMakeFiles/rebuild_cache.dir

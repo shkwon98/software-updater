@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/nb0cp.dir/src/main.cpp.o -o nb0cp  -Wl,-rpath,/usr/local/lib /usr/local/lib/libbehaviortree_cpp.so 
