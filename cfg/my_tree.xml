@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4" main_tree_to_execute="MainTree">
+
+    <BehaviorTree ID="MainTree">
+        <Sequence>
+            <RetryUntilSuccessful num_attempts="5">
+                <FindFile path="./" regex="copilot_*.*.*.tar.gz" files="{candidate_pkgs}"/>
+            </RetryUntilSuccessful>
+            <FindLatestPackage files="{candidate_pkgs}" file="{original_pkg}"/>
+            <CopyFile src="{original_pkg}" dest="/tmp" output="{temporal_pkg}"/>
+            <ExtractArchive file="{temporal_pkg}" />
+        </Sequence>
+    </BehaviorTree>
+
+    <!-- Description of Node Models (used by Groot) -->
+    <TreeNodesModel>
+        <Action ID="FindFile" editable="true">
+            <input_port name="path"/>
+            <input_port name="regex"/>
+            <output_port name="files"/>
+        </Action>
+        <Action ID="FindLatestPackage" editable="true">
+            <input_port name="files"/>
+            <output_port name="file"/>
+        </Action>
+        <Action ID="CopyFile" editable="true">
+            <input_port name="src"/>
+            <input_port name="dest"/>
+            <output_port name="output"/>
+        </Action>
+        <Action ID="ExtractArchive" editable="true">
+            <input_port name="file"/>
+            <output_port name="out_dir"/>
+        </Action>
+    </TreeNodesModel>
+
+</root>

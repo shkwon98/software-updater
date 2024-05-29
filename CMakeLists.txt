@@ -1,33 +1,27 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(nb0cp
+project(sw-updater
     LANGUAGES CXX)
 
+### Project Settings ###
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)
+
 ### Dependencies ###
-# behavior_tree_cpp
-# include(FetchContent)
-# set(FETCHCONTENT_QUIET OFF)
-# FetchContent_Declare(behavior_tree_cpp
-#     GIT_REPOSITORY https://github.com/BehaviorTree/BehaviorTree.CPP.git
-#     GIT_TAG        4.5.1
-#     GIT_PROGRESS   TRUE
-#     GIT_SHALLOW    TRUE
-#     EXCLUDE_FROM_ALL)
-# FetchContent_MakeAvailable(behavior_tree_cpp)
+include(cmake/external/behaviortree_cpp.cmake)
 
-
-find_package(behaviortree_cpp REQUIRED)
-
-
-# add_subdirectory(BehaviorTree.CPP)
-# option(BTCPP_EXAMPLES   "Build tutorials and examples" OFF)
-# option(BTCPP_UNIT_TESTS "Build the unit tests" OFF)
-
-# message("BTCPP_INCLUDE_DESTINATION: ${BTCPP_INCLUDE_DESTINATION}")
-
-
-add_executable(${PROJECT_NAME} src/main.cpp)
+### Executable ###
+add_executable(${PROJECT_NAME})
+target_sources(${PROJECT_NAME}
+    PRIVATE src/main.cpp)
 target_include_directories(${PROJECT_NAME}
-    PRIVATE src)
+    PRIVATE include)
 target_link_libraries(${PROJECT_NAME}
     PRIVATE BT::behaviortree_cpp)
+
+### Install ###
+install(TARGETS ${PROJECT_NAME}
+    DESTINATION bin)
+install(DIRECTORY cfg
+    DESTINATION .)
