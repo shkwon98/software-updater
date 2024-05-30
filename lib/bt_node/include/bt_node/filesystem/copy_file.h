@@ -12,11 +12,12 @@ public:
     {
     }
 
-    BT::NodeStatus tick() override;
-
     static BT::PortsList providedPorts()
     {
         return { BT::InputPort<std::string>("src"), BT::InputPort<std::string>("dest"),
                  BT::OutputPort<std::string>("output") };
     }
+
+private:
+    BT::NodeStatus tick() override;
 };

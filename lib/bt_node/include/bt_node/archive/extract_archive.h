@@ -12,15 +12,15 @@ public:
     {
     }
 
-    BT::NodeStatus onStart() override;
-    BT::NodeStatus onRunning() override;
-    void onHalted() override;
-
     static BT::PortsList providedPorts()
     {
         return { BT::InputPort<std::string>("file"), BT::OutputPort<std::string>("out_dir") };
     }
 
 private:
+    BT::NodeStatus onStart() override;
+    BT::NodeStatus onRunning() override;
+    void onHalted() override;
+
     std::string file_;
 };

@@ -9,6 +9,7 @@ set(CMAKE_BUILD_TYPE Debug)
 
 ### Dependencies ###
 include(cmake/external/behaviortree_cpp.cmake)
+include(cmake/external/libarchive.cmake)
 
 ### bt_node::filesystem ###
 add_library(bt_node-filesystem STATIC)
@@ -28,6 +29,7 @@ target_sources(bt_node-archive
 target_include_directories(bt_node-archive
     PUBLIC  include)
 target_link_libraries(bt_node-archive
+    PRIVATE LibArchive::LibArchive
     PUBLIC  BT::behaviortree_cpp)
 add_library(bt_node::archive ALIAS bt_node-archive)
 

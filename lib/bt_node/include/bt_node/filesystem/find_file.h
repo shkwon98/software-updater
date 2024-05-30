@@ -13,11 +13,12 @@ public:
     {
     }
 
-    BT::NodeStatus tick() override;
-
     static BT::PortsList providedPorts()
     {
         return { BT::InputPort<std::string>("path"), BT::InputPort<std::string>("regex"),
                  BT::OutputPort<std::vector<std::string>>("files") };
     }
+
+private:
+    BT::NodeStatus tick() override;
 };
