@@ -14,7 +14,7 @@ include(cmake/external/libarchive.cmake)
 ### bt_node::filesystem ###
 add_library(bt_node-filesystem STATIC)
 target_sources(bt_node-filesystem
-    PUBLIC  src/filesystem/find_file.cpp
+    PRIVATE src/filesystem/find_file.cpp
             src/filesystem/copy_file.cpp)
 target_include_directories(bt_node-filesystem
     PUBLIC  include)
@@ -25,7 +25,7 @@ add_library(bt_node::filesystem ALIAS bt_node-filesystem)
 ### bt_node::archive ###
 add_library(bt_node-archive STATIC)
 target_sources(bt_node-archive
-    PUBLIC  src/archive/extract_archive.cpp)
+    PRIVATE src/archive/extract_archive.cpp)
 target_include_directories(bt_node-archive
     PUBLIC  include)
 target_link_libraries(bt_node-archive
@@ -34,8 +34,8 @@ target_link_libraries(bt_node-archive
 add_library(bt_node::archive ALIAS bt_node-archive)
 
 ### bt_node::bt_node ###
-add_library(bt_node STATIC)
+add_library(bt_node INTERFACE)
 target_link_libraries(bt_node
-    PUBLIC  bt_node::filesystem
-            bt_node::archive)
+    INTERFACE bt_node::filesystem
+              bt_node::archive)
 add_library(bt_node::bt_node ALIAS bt_node)

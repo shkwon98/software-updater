@@ -22,5 +22,7 @@ private:
     BT::NodeStatus onRunning() override;
     void onHalted() override;
 
+    void Extract(const std::string &file);
+
     std::string file_;
 };

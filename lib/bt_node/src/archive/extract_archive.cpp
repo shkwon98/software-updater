@@ -1,5 +1,8 @@
 #include "bt_node/archive/extract_archive.h"
 
+#include <archive.h>
+#include <archive_entry.h>
+
 BT::NodeStatus ExtractArchive::onStart()
 {
     file_ = getInput<std::string>("file").value();
@@ -50,5 +53,9 @@ BT::NodeStatus ExtractArchive::onRunning()
 }
 
 void ExtractArchive::onHalted()
+{
+}
+
+void ExtractArchive::Extract(const std::string &file)
 {
 }
