@@ -42,7 +42,7 @@ int main()
     while (tree.rootNode()->executeTick() == BT::NodeStatus::RUNNING)
     {
         const auto &now = std::chrono::steady_clock::now();
-        std::this_thread::sleep_until(now + 100ms);
+        std::this_thread::sleep_until(now + 1000ms);
     }
     // tree.tickWhileRunning(100ms);
     // while (true)
