@@ -107,6 +107,11 @@ bool ExtractArchive::ExtractGzip(const std::string &filename)
 
                 while (true)
                 {
+                    if (isHaltRequested())
+                    {
+                        return false;
+                    }
+
                     if (auto ret = archive_read_data_block(archive, &buff, &size, &offset); ret == ARCHIVE_EOF)
                     {
                         break;
