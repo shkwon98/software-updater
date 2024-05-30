@@ -10,6 +10,7 @@ set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)
 
 ### Dependencies ###
 include(cmake/external/behaviortree_cpp.cmake)
+add_subdirectory(lib/bt_node)
 
 ### Executable ###
 add_executable(${PROJECT_NAME})
@@ -18,7 +19,8 @@ target_sources(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME}
     PRIVATE include)
 target_link_libraries(${PROJECT_NAME}
-    PRIVATE BT::behaviortree_cpp)
+    PRIVATE BT::behaviortree_cpp
+            bt_node::bt_node)
 
 ### Install ###
 install(TARGETS ${PROJECT_NAME}

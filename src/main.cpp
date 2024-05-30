@@ -8,12 +8,14 @@
 #include <behaviortree_cpp/loggers/bt_file_logger_v2.h>
 #include <behaviortree_cpp/loggers/groot2_publisher.h>
 
+// bt_node headers
+#include <bt_node/archive/extract_archive.h>
+#include <bt_node/filesystem/copy_file.h>
+#include <bt_node/filesystem/find_file.h>
+
 // Project headers
 #include "software_updater/common.h"
-#include "software_updater/nodes/copy_file.hpp"
-#include "software_updater/nodes/extract_archive.hpp"
-#include "software_updater/nodes/find_file.hpp"
-#include "software_updater/nodes/find_latest_package.hpp"
+#include "software_updater/node/find_latest_package.hpp"
 
 using namespace std::chrono_literals;
 
@@ -42,7 +44,7 @@ int main()
     // {
     //     const auto &now = std::chrono::steady_clock::now();
     //     tree.tickOnce();
-    //     std::this_thread::sleep_until(now + 100ms);
+    //     std::this_thread::sleep_until(now + 1s);
     // }
 
     return 0;
