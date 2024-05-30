@@ -3,14 +3,14 @@
 BT::NodeStatus FindFile::tick()
 {
     auto path = getInput<std::string>("path");
-    auto regex = getInput<std::string>("regex");
+    auto expression = getInput<std::string>("expression");
     if (!path)
     {
         throw BT::RuntimeError("missing required input [path]: ", path.error());
     }
-    if (!regex)
+    if (!expression)
     {
-        throw BT::RuntimeError("missing required input [regex]: ", regex.error());
+        throw BT::RuntimeError("missing required input [expression]: ", expression.error());
     }
 
     if (!std::filesystem::exists(path.value()))
@@ -26,7 +26,7 @@ BT::NodeStatus FindFile::tick()
             auto filepath = entry.path().string();
             auto filename = entry.path().filename().string();
 
-            if (std::regex_match(filename, std::regex(regex.value())))
+            if (std::regex_match(filename, std::regex(expression.value())))
             {
                 files.push_back(filepath);
             }

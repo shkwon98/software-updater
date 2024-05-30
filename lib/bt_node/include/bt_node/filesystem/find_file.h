@@ -15,7 +15,7 @@ public:
 
     static BT::PortsList providedPorts()
     {
-        return { BT::InputPort<std::string>("path"), BT::InputPort<std::string>("regex"),
+        return { BT::InputPort<std::string>("path"), BT::InputPort<std::string>("expression"),
                  BT::OutputPort<std::vector<std::string>>("files") };
     }
 

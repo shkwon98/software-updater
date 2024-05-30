@@ -2,9 +2,13 @@
 <root BTCPP_format="4" main_tree_to_execute="MainTree">
 
     <BehaviorTree ID="MainTree">
+        <SubTree ID="PkgInstall" where_to_find= "./" package_regex="copilot_*.*.*.tar.gz" />
+    </BehaviorTree>
+
+    <BehaviorTree ID="PkgInstall">
         <Sequence>
             <RetryUntilSuccessful num_attempts="5">
-                <FindFile path="./" regex="copilot_*.*.*.tar.gz" files="{candidate_pkgs}"/>
+                <FindFile path="{where_to_find}" expression="{package_regex}" files="{candidate_pkgs}"/>
             </RetryUntilSuccessful>
             <FindLatestPackage files="{candidate_pkgs}" file="{original_pkg}"/>
             <CopyFile src="{original_pkg}" dest="/tmp" output="{temporal_pkg}"/>
@@ -16,7 +20,7 @@
     <TreeNodesModel>
         <Action ID="FindFile" editable="true">
             <input_port name="path"/>
-            <input_port name="regex"/>
+            <input_port name="expression"/>
             <output_port name="files"/>
         </Action>
         <Action ID="FindLatestPackage" editable="true">
