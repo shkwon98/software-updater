@@ -26,31 +26,41 @@ private:
             throw BT::RuntimeError("missing required input [files]: ", files.error());
         }
 
-        std::string file;
         for (const auto &f : files.value())
         {
-            if (f.find("copilot_") != std::string::npos)
+            std::cout << "File: " << f << std::endl;
+        }
+
+        std::string latest_package_file;
+        std::regex regex(R"(copilot_(\d+)\.(\d+)\.(\d+)\.tar\.gz)");
+
+        int ver_major = 0;
+        int ver_minor = 0;
+        int ver_patch = 0;
+
+        for (const auto &f : files.value())
+        {
+            auto file_name = std::filesystem::path(f).filename().string();
+            std::smatch match;
+
+            if (std::regex_match(file_name, match, regex))
             {
-                if (file.empty())
+                int major = std::stoi(match[1]);
+                int minor = std::stoi(match[2]);
+                int patch = std::stoi(match[3]);
+
+                if (latest_package_file.empty() || std::tie(major, minor, patch) > std::tie(ver_major, ver_minor, ver_patch))
                 {
-                    file = f;
-                }
-                else
-                {
-                    auto file_version = std::stoi(
-                        file.substr(file.find_last_of('_') + 1, file.find_last_of('.') - file.find_last_of('_') - 1));
-                    auto f_version =
-                        std::stoi(f.substr(f.find_last_of('_') + 1, f.find_last_of('.') - f.find_last_of('_') - 1));
-                    if (f_version > file_version)
-                    {
-                        file = f;
-                    }
+                    latest_package_file = f;
+                    ver_major = major;
+                    ver_minor = minor;
+                    ver_patch = patch;
                 }
             }
         }
 
-        setOutput("file", file);
-        std::cout << "Latest package: " << file << std::endl;
+        setOutput("file", latest_package_file);
+        std::cout << "Latest package: " << latest_package_file << std::endl;
 
         return BT::NodeStatus::SUCCESS;
     }
