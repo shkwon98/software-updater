@@ -12,6 +12,12 @@ public:
     {
     }
 
+    static BT::PortsList providedPorts()
+    {
+        return { BT::InputPort<std::vector<std::string>>("files"), BT::OutputPort<std::string>("file") };
+    }
+
+private:
     BT::NodeStatus tick() override
     {
         auto files = getInput<std::vector<std::string>>("files");
@@ -47,10 +53,5 @@ public:
         std::cout << "Latest package: " << file << std::endl;
 
         return BT::NodeStatus::SUCCESS;
-    }
-
-    static BT::PortsList providedPorts()
-    {
-        return { BT::InputPort<std::vector<std::string>>("files"), BT::OutputPort<std::string>("file") };
     }
 };
