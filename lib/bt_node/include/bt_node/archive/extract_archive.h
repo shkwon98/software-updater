@@ -1,6 +1,8 @@
 #pragma once
 
+#include <atomic>
 #include <filesystem>
+#include <future>
 
 #include <behaviortree_cpp/action_node.h>
 
@@ -22,7 +24,9 @@ private:
     BT::NodeStatus onRunning() override;
     void onHalted() override;
 
-    void Extract(const std::string &file);
+    bool ExtractGzip(const std::string &file);
 
     std::string file_;
+    std::atomic<float> progress_;
+    std::future<bool> future_;
 };
