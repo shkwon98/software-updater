@@ -39,7 +39,12 @@ int main()
     auto bt_cout_logger = std::make_unique<BT::StdCoutLogger>(tree);
     bt_cout_logger->enableTransitionToIdle(false);
 
-    tree.tickWhileRunning();
+    while (tree.rootNode()->executeTick() == BT::NodeStatus::RUNNING)
+    {
+        const auto &now = std::chrono::steady_clock::now();
+        std::this_thread::sleep_until(now + 100ms);
+    }
+    // tree.tickWhileRunning(100ms);
     // while (true)
     // {
     //     const auto &now = std::chrono::steady_clock::now();
