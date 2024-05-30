@@ -21,8 +21,16 @@ target_include_directories(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
     PRIVATE BT::behaviortree_cpp
             bt_node::bt_node)
+set_target_properties(${PROJECT_NAME}
+    PROPERTIES
+        INSTALL_RPATH "$ORIGIN/../lib")
 
 ### Install ###
+# install(TARGETS ${PROJECT_NAME}
+#     PUBLIC_HEADER DESTINATION include
+#     ARCHIVE DESTINATION lib
+#     LIBRARY DESTINATION lib
+#     RUNTIME DESTINATION bin)
 install(TARGETS ${PROJECT_NAME}
     DESTINATION bin)
 install(DIRECTORY cfg
