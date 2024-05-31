@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4" main_tree_to_execute="MainTree">
+
+    <BehaviorTree ID="WaitForUpdateRequest">
+        <IfThenElse>
+            <Sleep msec="3000"/>
+            <SetBlackboard value="./" output_key="received_path"/>
+        </IfThenElse>
+    </BehaviorTree>
+
+</root>

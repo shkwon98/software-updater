@@ -17,6 +17,7 @@
 #include "software_updater/common.h"
 #include "software_updater/node/find_latest_package.hpp"
 
+namespace fs = std::filesystem;
 using namespace std::chrono_literals;
 
 int main()
@@ -27,28 +28,25 @@ int main()
     factory.registerNodeType<CopyFile>("CopyFile");
     factory.registerNodeType<ExtractArchive>("ExtractArchive");
 
-    const auto &default_bt_xml_file = std::filesystem::path("../cfg/my_tree.xml");
-    const auto &default_bt_log_file = std::filesystem::path("../log/bt_trace.btlog");
-    std::filesystem::create_directories(default_bt_log_file.parent_path());
+    const auto &log_file = fs::path("../log/bt_trace.btlog");
+    fs::create_directories(log_file.parent_path());
 
-    auto blackboard = BT::Blackboard::create();
-    auto tree = factory.createTreeFromFile(default_bt_xml_file, blackboard);
+    auto main_tree = factory.createTreeFromFile("../cfg/main_tree.xml");
+    auto groot2_publisher = std::make_unique<BT::Groot2Publisher>(main_tree, 5555);
+    auto file_logger = std::make_unique<BT::FileLogger2>(main_tree, log_file);
+    auto cout_logger = std::make_unique<BT::StdCoutLogger>(main_tree);
+    cout_logger->enableTransitionToIdle(false);
 
-    auto groot2_publisher = std::make_unique<BT::Groot2Publisher>(tree, 5555);
-    auto bt_file_logger = std::make_unique<BT::FileLogger2>(tree, default_bt_log_file);
-    auto bt_cout_logger = std::make_unique<BT::StdCoutLogger>(tree);
-    bt_cout_logger->enableTransitionToIdle(false);
-
-    while (tree.rootNode()->executeTick() == BT::NodeStatus::RUNNING)
+    while (main_tree.rootNode()->executeTick() == BT::NodeStatus::RUNNING)
     {
         const auto &now = std::chrono::steady_clock::now();
         std::this_thread::sleep_until(now + 1000ms);
     }
-    // tree.tickWhileRunning(100ms);
+    // main_tree.tickWhileRunning(100ms);
     // while (true)
     // {
     //     const auto &now = std::chrono::steady_clock::now();
-    //     tree.tickOnce();
+    //     main_tree.tickOnce();
     //     std::this_thread::sleep_until(now + 1s);
     // }
 

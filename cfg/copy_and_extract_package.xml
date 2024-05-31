@@ -1,23 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root BTCPP_format="4" main_tree_to_execute="MainTree">
 
-    <BehaviorTree ID="MainTree">
-        <Sequence>
-            <SubTree ID="WaitForUpdateRequest" received_path="{search_path}"/>
-            <SubTree ID="CopyAndExtractPackage" where_to_find="{search_path}" package_regex="copilot_*.*.*.tar.gz"/>
-            <RetryUntilSuccessful num_attempts="10">
-                <SubTree ID="InstallPackage"/>
-            </RetryUntilSuccessful>
-        </Sequence>
-    </BehaviorTree>
-
-    <BehaviorTree ID="WaitForUpdateRequest">
-        <IfThenElse>
-            <Sleep msec="3000"/>
-            <SetBlackboard value="./" output_key="received_path"/>
-        </IfThenElse>
-    </BehaviorTree>
-
     <BehaviorTree ID="CopyAndExtractPackage">
         <Sequence>
             <FindFile path="{where_to_find}" expression="{package_regex}" files="{candidate_pkgs}"/>
@@ -25,14 +8,6 @@
             <CopyFile src="{original_pkg}" dest="/tmp" output="{temporal_pkg}"/>
             <ExtractArchive file="{temporal_pkg}"/>
         </Sequence>
-    </BehaviorTree>
-
-    <BehaviorTree ID="InstallPackage">
-        <SequenceWithMemory>
-            <AlwaysSuccess/>
-            <AlwaysSuccess/>
-            <AlwaysFailure/>
-        </SequenceWithMemory>
     </BehaviorTree>
 
     <!-- Description of Node Models (used by Groot) -->

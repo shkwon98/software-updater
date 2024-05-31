@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4" main_tree_to_execute="MainTree">
+    <include path="./wait_for_update_request.xml"/>
+    <include path="./copy_and_extract_package.xml"/>
+    <include path="./install_package.xml"/>
+
+    <BehaviorTree ID="MainTree">
+        <Sequence>
+            <SubTree ID="WaitForUpdateRequest" received_path="{search_path}"/>
+            <SubTree ID="CopyAndExtractPackage" where_to_find="{search_path}" package_regex="copilot_*.*.*.tar.gz"/>
+            <RetryUntilSuccessful num_attempts="10">
+                <SubTree ID="InstallPackage"/>
+            </RetryUntilSuccessful>
+        </Sequence>
+    </BehaviorTree>
+</root>
