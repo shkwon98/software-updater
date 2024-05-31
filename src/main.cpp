@@ -7,17 +7,21 @@
 #include <behaviortree_cpp/loggers/bt_cout_logger.h>
 #include <behaviortree_cpp/loggers/bt_file_logger_v2.h>
 #include <behaviortree_cpp/loggers/groot2_publisher.h>
+#include <behaviortree_cpp/xml_parsing.h>
 
 // bt_node headers
 #include <bt_node/archive/extract_archive.h>
 #include <bt_node/filesystem/copy_file.h>
 #include <bt_node/filesystem/find_file.h>
+#include <bt_node/filesystem/get_file_type.h>
 
 // Project headers
 #include "software_updater/common.h"
+#include "software_updater/node/dummy_nodes.h"
 #include "software_updater/node/find_latest_package.hpp"
+#include "software_updater/node/install.hpp"
+#include "software_updater/node/receive_message.hpp"
 
-namespace fs = std::filesystem;
 using namespace std::chrono_literals;
 
 int main()
@@ -27,9 +31,13 @@ int main()
     factory.registerNodeType<FindLatestPackage>("FindLatestPackage");
     factory.registerNodeType<CopyFile>("CopyFile");
     factory.registerNodeType<ExtractArchive>("ExtractArchive");
+    factory.registerNodeType<ReceiveMessage>("ReceiveMessage");
+    factory.registerNodeType<GetFileType>("GetFileType");
+    factory.registerNodeType<SaySomething>("SaySomething");
+    factory.registerNodeType<Install>("Install");
 
-    const auto &log_file = fs::path("../log/bt_trace.btlog");
-    fs::create_directories(log_file.parent_path());
+    const auto &log_file = std::filesystem::path("../log/bt_trace.btlog");
+    std::filesystem::create_directories(log_file.parent_path());
 
     auto main_tree = factory.createTreeFromFile("../cfg/main_tree.xml");
     auto groot2_publisher = std::make_unique<BT::Groot2Publisher>(main_tree, 5555);
@@ -37,18 +45,19 @@ int main()
     auto cout_logger = std::make_unique<BT::StdCoutLogger>(main_tree);
     cout_logger->enableTransitionToIdle(false);
 
-    while (main_tree.rootNode()->executeTick() == BT::NodeStatus::RUNNING)
-    {
-        const auto &now = std::chrono::steady_clock::now();
-        std::this_thread::sleep_until(now + 1000ms);
-    }
-    // main_tree.tickWhileRunning(100ms);
-    // while (true)
+    // while (main_tree.rootNode()->executeTick() == BT::NodeStatus::RUNNING)
     // {
     //     const auto &now = std::chrono::steady_clock::now();
-    //     main_tree.tickOnce();
     //     std::this_thread::sleep_until(now + 1s);
     // }
+    // main_tree.tickWhileRunning(100ms);
+    while (true)
+    {
+        const auto &now = std::chrono::steady_clock::now();
+        // main_tree.tickOnce();
+        main_tree.tickExactlyOnce();
+        std::this_thread::sleep_until(now + 100ms);
+    }
 
     return 0;
 }

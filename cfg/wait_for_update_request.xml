@@ -2,10 +2,10 @@
 <root BTCPP_format="4" main_tree_to_execute="MainTree">
 
     <BehaviorTree ID="WaitForUpdateRequest">
-        <IfThenElse>
-            <Sleep msec="3000"/>
-            <SetBlackboard value="./" output_key="received_path"/>
-        </IfThenElse>
+        <Sequence>
+            <ReceiveMessage path="{received_file}"/>
+            <GetFileType file="{received_file}" type="{received_file_type}"/>
+        </Sequence>
     </BehaviorTree>
 
 </root>

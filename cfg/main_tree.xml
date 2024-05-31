@@ -6,11 +6,10 @@
 
     <BehaviorTree ID="MainTree">
         <Sequence>
-            <SubTree ID="WaitForUpdateRequest" received_path="{search_path}"/>
-            <SubTree ID="CopyAndExtractPackage" where_to_find="{search_path}" package_regex="copilot_*.*.*.tar.gz"/>
-            <RetryUntilSuccessful num_attempts="10">
-                <SubTree ID="InstallPackage"/>
-            </RetryUntilSuccessful>
+            <SubTree ID="WaitForUpdateRequest" _autoremap="true"/>
+            <SubTree ID="CopyAndExtractPackage" _autoremap="true" package_expression="copilot_*.*.*.tar.gz" destination="/tmp"/>
+            <SubTree ID="InstallPackage" num_attempts="10"/>
         </Sequence>
     </BehaviorTree>
+
 </root>

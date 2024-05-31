@@ -18,19 +18,37 @@ BT::NodeStatus FindFile::tick()
         throw BT::RuntimeError("path does not exist: ", path.value());
     }
 
+    // Find files that match the expression in the given path
+    // path can be a directory or a file
     std::vector<std::string> files;
-    for (const auto &entry : std::filesystem::directory_iterator(path.value()))
+    if (std::filesystem::is_directory(path.value()))
     {
-        if (entry.is_regular_file())
+        for (const auto &entry : std::filesystem::directory_iterator(path.value()))
         {
-            auto filepath = entry.path().string();
-            auto filename = entry.path().filename().string();
-
-            if (std::regex_match(filename, std::regex(expression.value())))
+            if (entry.is_regular_file())
             {
-                files.push_back(filepath);
+                auto filepath = entry.path().string();
+                auto filename = entry.path().filename().string();
+
+                if (std::regex_match(filename, std::regex(expression.value())))
+                {
+                    files.push_back(filepath);
+                }
             }
         }
+    }
+    else if (std::filesystem::is_regular_file(path.value()))
+    {
+        auto filename = std::filesystem::path(path.value()).filename().string();
+        if (std::regex_match(filename, std::regex(expression.value())))
+        {
+            files.push_back(path.value());
+        }
+    }
+
+    if (files.empty())
+    {
+        return BT::NodeStatus::FAILURE;
     }
 
     setOutput("files", files);

@@ -2,11 +2,25 @@
 <root BTCPP_format="4" main_tree_to_execute="MainTree">
 
     <BehaviorTree ID="InstallPackage">
-        <SequenceWithMemory>
-            <AlwaysSuccess/>
-            <AlwaysSuccess/>
-            <AlwaysFailure/>
-        </SequenceWithMemory>
+        <Sequence>
+            <ParallelAll>
+                <RetryUntilSuccessful num_attempts="{num_attempts}">
+                    <Sleep msec="3000"/>
+                </RetryUntilSuccessful>
+                <RetryUntilSuccessful num_attempts="{num_attempts}">
+                    <Sleep msec="4000"/>
+                </RetryUntilSuccessful>
+                <RetryUntilSuccessful num_attempts="{num_attempts}">
+                    <Sleep msec="5000"/>
+                </RetryUntilSuccessful>
+                <RetryUntilSuccessful num_attempts="{num_attempts}">
+                    <Sequence>
+                        <Sleep msec="2000"/>
+                        <AlwaysFailure/>
+                    </Sequence>
+                </RetryUntilSuccessful>
+            </ParallelAll>
+        </Sequence>
     </BehaviorTree>
 
 </root>

@@ -12,10 +12,10 @@ include(cmake/external/behaviortree_cpp.cmake)
 include(cmake/external/libarchive.cmake)
 
 ### bt_node::filesystem ###
+file(GLOB_RECURSE filesystem_sources CONFIGURE_DEPENDS src/filesystem/*.cpp)
 add_library(bt_node-filesystem STATIC)
 target_sources(bt_node-filesystem
-    PRIVATE src/filesystem/find_file.cpp
-            src/filesystem/copy_file.cpp)
+    PRIVATE ${filesystem_sources})
 target_include_directories(bt_node-filesystem
     PUBLIC  include)
 target_link_libraries(bt_node-filesystem
