@@ -9,9 +9,6 @@
 #include <behaviortree_cpp/loggers/groot2_publisher.h>
 #include <behaviortree_cpp/xml_parsing.h>
 
-// bt_node headers
-#include <robl_behavior_tree/robl_behavior_tree.h>
-
 // Project headers
 #include "software_updater/common.h"
 #include "software_updater/node/dummy_nodes.h"
@@ -24,8 +21,8 @@ using namespace std::chrono_literals;
 int main()
 {
     auto factory = BT::BehaviorTreeFactory();
-    factory.registerFromPlugin("../lib/libbt_node-archive.so");
-    factory.registerFromPlugin("../lib/libbt_node-filesystem.so");
+    factory.registerFromPlugin("../lib/librobl-behaviortree-archive.so");
+    factory.registerFromPlugin("../lib/librobl-behaviortree-filesystem.so");
     factory.registerNodeType<FindLatestPackage>("FindLatestPackage");
     factory.registerNodeType<ReceiveMessage>("ReceiveMessage");
     factory.registerNodeType<SaySomething>("SaySomething");
