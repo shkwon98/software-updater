@@ -22,9 +22,10 @@ FetchContent_Declare(robl_behaviortree
 FetchContent_MakeAvailable(robl_behaviortree)
 
 ### Executable ###
+file(GLOB_RECURSE SOURCES src/*.cpp)
 add_executable(${PROJECT_NAME})
 target_sources(${PROJECT_NAME}
-    PRIVATE src/main.cpp)
+    PRIVATE ${SOURCES})
 target_include_directories(${PROJECT_NAME}
     PRIVATE include)
 target_link_libraries(${PROJECT_NAME}

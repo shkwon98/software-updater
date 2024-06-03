@@ -11,11 +11,12 @@
 
 // Project headers
 #include "software_updater/common.h"
-#include "software_updater/node/find_latest_package.hpp"
-#include "software_updater/node/install.hpp"
-#include "software_updater/node/receive_message.hpp"
+#include "software_updater/node/find_latest_package_node.h"
+#include "software_updater/node/install_node.h"
+#include "software_updater/node/receive_message_node.h"
 
 using namespace std::chrono_literals;
+using namespace software_updater;
 
 int main()
 {
@@ -23,9 +24,9 @@ int main()
     factory.registerFromPlugin("../lib/librobl-behaviortree-archive.so");
     factory.registerFromPlugin("../lib/librobl-behaviortree-filesystem.so");
     factory.registerFromPlugin("../lib/librobl-behaviortree-logger.so");
-    factory.registerNodeType<FindLatestPackage>("FindLatestPackage");
-    factory.registerNodeType<ReceiveMessage>("ReceiveMessage");
-    factory.registerNodeType<Install>("Install");
+    factory.registerNodeType<node::FindLatestPackageNode>("FindLatestPackage");
+    factory.registerNodeType<node::InstallNode>("Install");
+    factory.registerNodeType<node::ReceiveMessageNode>("ReceiveMessage");
 
     const auto &log_file = std::filesystem::path("../log/bt_trace.btlog");
     std::filesystem::create_directories(log_file.parent_path());
