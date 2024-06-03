@@ -1,6 +1,7 @@
 #pragma once
 
 #include <filesystem>
+#include <regex>
 
 #include <behaviortree_cpp/action_node.h>
 
