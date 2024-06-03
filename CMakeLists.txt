@@ -10,7 +10,7 @@ set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)
 
 ### Dependencies ###
 include(cmake/external/behaviortree_cpp.cmake)
-add_subdirectory(lib/bt_node)
+include(cmake/external/robl_behavior_tree.cmake)
 
 ### Executable ###
 add_executable(${PROJECT_NAME})
@@ -20,7 +20,7 @@ target_include_directories(${PROJECT_NAME}
     PRIVATE include)
 target_link_libraries(${PROJECT_NAME}
     PRIVATE BT::behaviortree_cpp
-            bt_node::bt_node)
+            robl_behavior_tree::robl_behavior_tree)
 set_target_properties(${PROJECT_NAME}
     PROPERTIES
         INSTALL_RPATH "$ORIGIN/../lib")

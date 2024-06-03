@@ -10,10 +10,7 @@
 #include <behaviortree_cpp/xml_parsing.h>
 
 // bt_node headers
-#include <bt_node/archive/extract_archive.h>
-#include <bt_node/filesystem/copy_file.h>
-#include <bt_node/filesystem/find_file.h>
-#include <bt_node/filesystem/get_file_type.h>
+#include <robl_behavior_tree/robl_behavior_tree.h>
 
 // Project headers
 #include "software_updater/common.h"
@@ -27,12 +24,10 @@ using namespace std::chrono_literals;
 int main()
 {
     auto factory = BT::BehaviorTreeFactory();
-    factory.registerNodeType<FindFile>("FindFile");
+    factory.registerFromPlugin("../lib/libbt_node-archive.so");
+    factory.registerFromPlugin("../lib/libbt_node-filesystem.so");
     factory.registerNodeType<FindLatestPackage>("FindLatestPackage");
-    factory.registerNodeType<CopyFile>("CopyFile");
-    factory.registerNodeType<ExtractArchive>("ExtractArchive");
     factory.registerNodeType<ReceiveMessage>("ReceiveMessage");
-    factory.registerNodeType<GetFileType>("GetFileType");
     factory.registerNodeType<SaySomething>("SaySomething");
     factory.registerNodeType<Install>("Install");
 
