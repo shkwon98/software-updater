@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4" main_tree_to_execute="MainTree">
+    <include path="./update_oru.xml"/>
+    <include path="./update_ccu.xml"/>
+    <include path="./update_eiu.xml"/>
+
+    <BehaviorTree ID="UpdateDevices">
+        <ParallelAll>
+            <RetryUntilSuccessful num_attempts="{num_attempts}">
+                <SubTree ID="UpdateORU"/>
+            </RetryUntilSuccessful>
+            <RetryUntilSuccessful num_attempts="{num_attempts}">
+                <SubTree ID="UpdateCCU"/>
+            </RetryUntilSuccessful>
+            <RetryUntilSuccessful num_attempts="{num_attempts}">
+                <SubTree ID="UpdateEIU"/>
+            </RetryUntilSuccessful>
+        </ParallelAll>
+    </BehaviorTree>
+
+</root>

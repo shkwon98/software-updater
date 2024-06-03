@@ -2,13 +2,13 @@
 <root BTCPP_format="4" main_tree_to_execute="MainTree">
     <include path="./wait_for_update_request.xml"/>
     <include path="./copy_and_extract_package.xml"/>
-    <include path="./install_package.xml"/>
+    <include path="./update_devices.xml"/>
 
     <BehaviorTree ID="MainTree">
         <Sequence>
             <SubTree ID="WaitForUpdateRequest" _autoremap="true"/>
             <SubTree ID="CopyAndExtractPackage" _autoremap="true" package_expression="copilot_*.*.*.tar.gz" destination="/tmp"/>
-            <SubTree ID="InstallPackage" num_attempts="10"/>
+            <SubTree ID="UpdateDevices" num_attempts="10"/>
         </Sequence>
     </BehaviorTree>
 
