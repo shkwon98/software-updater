@@ -11,7 +11,6 @@
 
 // Project headers
 #include "software_updater/common.h"
-#include "software_updater/node/dummy_nodes.h"
 #include "software_updater/node/find_latest_package.hpp"
 #include "software_updater/node/install.hpp"
 #include "software_updater/node/receive_message.hpp"
@@ -23,9 +22,9 @@ int main()
     auto factory = BT::BehaviorTreeFactory();
     factory.registerFromPlugin("../lib/librobl-behaviortree-archive.so");
     factory.registerFromPlugin("../lib/librobl-behaviortree-filesystem.so");
+    factory.registerFromPlugin("../lib/librobl-behaviortree-logger.so");
     factory.registerNodeType<FindLatestPackage>("FindLatestPackage");
     factory.registerNodeType<ReceiveMessage>("ReceiveMessage");
-    factory.registerNodeType<SaySomething>("SaySomething");
     factory.registerNodeType<Install>("Install");
 
     const auto &log_file = std::filesystem::path("../log/bt_trace.btlog");
